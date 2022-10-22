@@ -42,7 +42,7 @@ const Register = () => {
    
     try {
       let response = await axios.post(
-        "https://obscure-stream-28310.herokuapp.com/user/signup",
+        "http://localhost:5000/user/signup",
         myForm
       
       );
