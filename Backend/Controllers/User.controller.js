@@ -21,15 +21,14 @@ fs.access("../Data/images", async (err) => {
 });
 
 UserController.post("/signup", upload.single("image"), async (req, res) => {
-  const { name, mobile,  password } = req.body;
-  console.log(req.body);
-  // console.log(req.file);
-  // // Image Compression using 'sharp' module.
+  const { name, mobile, password } = req.body;
 
-  // await sharp(req.file.buffer)
-  //   .rotate()
-  //   .resize(400)
-  //   .toFile(`../Data/images/${new Date().getTime()}-${req.file.originalname}`);
+  // Image Compression using 'sharp' module.
+
+  await sharp(req.file.buffer)
+    .rotate()
+    .resize(400)
+    .toFile(`../Data/images/${req.file.originalname}`);
 
   // creating uniqueId following given instructions in problem statement.
   /*
@@ -79,7 +78,7 @@ UserController.post("/signup", upload.single("image"), async (req, res) => {
       const newUser = new UserModel({
         name,
         mobile,
-        // image : req.file.originalname,
+        image: req.file.originalname,
         password: cipherPassword,
         uniqueId,
       });
@@ -88,6 +87,26 @@ UserController.post("/signup", upload.single("image"), async (req, res) => {
       res.status(200).send({ message: "signup successfully", newUser });
     }
   );
+});
+
+UserController.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+ 
+  const user = await UserModel.findOne({ uniqueId : username});
+  if (!user) {
+    return res.status(404).send({ message: "user not found" });
+  }
+  const decriptedPassword = CryptoJS.AES.decrypt(
+    user.password,
+    process.env.SECRETKEY
+  ).toString(CryptoJS.enc.Utf8)
+  
+  if(decriptedPassword === password){
+    return res.status(200).send({message : "Login successfully", user})
+  }
+  else{
+    return res.send({message : "invalid credentials"})
+  }
 });
 
 module.exports = UserController;

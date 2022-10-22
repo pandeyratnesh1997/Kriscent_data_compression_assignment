@@ -1,14 +1,16 @@
 import React from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
 
 const PrivateRoute = ({children}) => {
+const {name} = useSelector((state) => state);
 
-let token  = localStorage.getItem("bmiAppToken");
-if(!token){
-    return <Navigate to={'/login'}/>
+if(!name){
+    return <Navigate to='/login'/>
 }
-    return children
 
+  return children
 }
 
 export default PrivateRoute

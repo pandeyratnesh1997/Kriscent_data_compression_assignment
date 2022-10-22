@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import Register from './Components/Register';
-import Login from './Components/Login';
+
+import RoutePage from './Route/RoutePage';
 
 function App() {
   return (
     <div className="App">
-      <Register/>
-      <Login/>
+      <RoutePage/>
     </div>
   );
 }

@@ -1,0 +1,14 @@
+.container{
+    width: 250px;
+    height: 300px;
+    padding: 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 1 px solid rebeccapurple;
+    border-radius: 5px;
+    margin: auto;
+}
+.image{
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+}

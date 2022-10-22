@@ -7,8 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import styles from "../Styled/form.module.css";
 
-
-const formData = new FormData();
 const Register = () => {
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -33,25 +31,29 @@ const Register = () => {
   const handleRegister =  async(e) => {
 
     e.preventDefault();
+    
+    const myForm = new FormData()
+   const {name, password, mobile, image} = userDetails
+    
+     myForm.set('name' , name);
+     myForm.set('password' , password);
+     myForm.set('mobile' , mobile);            
+     myForm.set('image' , image);            
    
-     console.log(userDetails,formData);
-    formData.set('name' , userDetails.name);
-    formData.set('password' , userDetails.password);
-    formData.set('mobile' , userDetails.mobile);            
-    formData.set('image' , userDetails.image);            
-    console.log(formData);
-    // try {
-    //   let response = await axios.post(
-    //     "http://localhost:5000/user/signup",
-    //     userDetails
+    try {
+      let response = await axios.post(
+        "https://obscure-stream-28310.herokuapp.com/user/signup",
+        myForm
       
-    //   );
-    //   console.log(response);
-    //   //   navigate("/login");
-    // } catch (error) {
-    //   console.log(error);
-    //   alert("Error in Register");
-    // }
+      );
+      let username = response?.data?.newUser.uniqueId;
+
+      alert(`your username is ${username}`)
+      navigate('/login')
+    } catch (error) {
+      console.log(error);
+      alert("Error in Register");
+    }
   };
 
   return (
@@ -123,7 +125,7 @@ const Register = () => {
               type="file"
               name="image"
               onChange={handleFile}
-             
+             required
             />
           </div>
         </div>

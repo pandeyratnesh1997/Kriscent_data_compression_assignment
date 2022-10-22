@@ -3,27 +3,33 @@ import { useState } from "react";
 import axios from "axios";
 import { Button, Heading, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styles from "../Styled/form.module.css";
+import { getprofile } from "../Redux/action";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     const payload = {
-      email,
+      username,
       password,
     };
+
+
     try {
       let response = await axios.post(
-        "https://pure-meadow-80957.herokuapp.com/user/login",
+        "https://obscure-stream-28310.herokuapp.com/user/login",
         payload
       );
-
-      localStorage.setItem("bmiAppToken", response.data.token);
-
+      
+      dispatch(getprofile(response.data.user));
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -33,19 +39,19 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
-      <Heading size={'md'}>Login</Heading>
+      <Heading size={"md"}>Login</Heading>
       <form onSubmit={handleLogin}>
         <div className={styles.row}>
           <div className={styles.label_column}>
-            <label className={styles.label}>Email</label>
+            <label className={styles.label}>Username</label>
           </div>
           <div className={styles.input_column}>
             <input
               className={styles.input}
-              type="email"
-              placeholder="Enter your email id.."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Enter your username.."
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
               required
             />
           </div>
@@ -71,11 +77,12 @@ const Login = () => {
           <input className={styles.submit} type="submit" value="Login" />
         </div>
         <div className={styles.row}>
-            <p style={{margin: '10px'}}>Don't have account</p>
-            <br />
-            <Button style={{margin: '10px'}}><Link to='/register'>Go to Register</Link></Button>
+          <p style={{ margin: "10px" }}>Don't have account</p>
+          <br />
+          <Button style={{ margin: "10px" }}>
+            <Link to="/register">Go to Register</Link>
+          </Button>
         </div>
-
       </form>
     </div>
   );
