@@ -21,4 +21,4 @@
         
     
   
-## Note : I dont have premium account on heroku and any cloud and heroku gives 500 only request per month for free so server will not work. you can use localhost to check.
+## Note : I dont have premium account on heroku not on any cloud providing site and heroku gives 500 only request per month for free so server will not work. you can use localhost to check.
