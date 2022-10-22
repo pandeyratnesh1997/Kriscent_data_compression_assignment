@@ -21,14 +21,15 @@ fs.access("../Data/images", async (err) => {
 });
 
 UserController.post("/signup", upload.single("image"), async (req, res) => {
-  const { name, mobile, image, password } = req.body;
+  const { name, mobile,  password } = req.body;
+  console.log(req.body);
+  // console.log(req.file);
+  // // Image Compression using 'sharp' module.
 
-  // Image Compression using 'sharp' module.
-
-  await sharp(req.file.buffer)
-    .rotate()
-    .resize(400)
-    .toFile(`../Data/images/${new Date().getTime()}-${req.file.originalname}`);
+  // await sharp(req.file.buffer)
+  //   .rotate()
+  //   .resize(400)
+  //   .toFile(`../Data/images/${new Date().getTime()}-${req.file.originalname}`);
 
   // creating uniqueId following given instructions in problem statement.
   /*
@@ -78,7 +79,7 @@ UserController.post("/signup", upload.single("image"), async (req, res) => {
       const newUser = new UserModel({
         name,
         mobile,
-        image,
+        // image : req.file.originalname,
         password: cipherPassword,
         uniqueId,
       });
